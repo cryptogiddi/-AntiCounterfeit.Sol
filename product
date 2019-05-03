@@ -1,0 +1,47 @@
+pragma solidity ^0.4.11;
+
+// written for Solidity version 0.4.18 and above that doesnt break functionality
+
+contract Product
+{
+
+  // Think of these as a hash table, with the key as a uint and value of 
+    // the struct Product . These mappings will be used in the majority
+    // of our transactions/calls
+    // These mappings will hold all the Product and specifications respectively
+    struct ProductID{
+        string ProductName;
+        string ProductDescription;
+        string productManufacturer ;
+        uint ProductId;
+        uint ExpiryDate;
+        string Location;
+        bool isProduct;
+        
+    }
+    
+    
+     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+     *  These functions perform transactions, editing the mappings *
+     * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+     function Product(string name, uint ID, uint expirydate, address is_admin) public
+     {
+         ProductID = name;
+         admin = is_admin;
+         period = manufacturePeriod;
+         
+     function addProduct (address Product_Address, string Product_name, string Product_description, string Product_manufacturer, uint Product_id, uint expiry_date, string Location) isAdmin public {
+       
+       if(ProductID[product_Address].isProduct != false) revert();
+       
+       Product[Product_Address].isProduct = true;
+       Product[Product_Address].ProductName = Product_name;
+       Product[Product_Address].ProductDescription = Product_description;
+       Product[Product_Address].productManufacturer = Product_manufacturer;
+       Product[Product_Address].ProductID = Product_id ;
+       Product[Product_Address].expirydate = expiry_date;
+       Product[Product_Address].Location = Location;
+       numProduct++;
+    } 
+
+}
