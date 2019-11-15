@@ -1,0 +1,222 @@
+pragma solidity ^0.4.17;
+
+// written for Solidity version 0.4.18 and above that doesnt break functionality
+
+
+import "./NuruToken.sol";
+
+
+contract Product
+{
+    Store public x;
+    
+    // Think of these as a hash table, with the key as a uint and value of 
+    // the struct Product . These mappings will be used in the majority
+    // of our transactions/calls
+    // These mappings will hold all the Product and specifications respectively
+ 
+        string productName;
+        uint public batchNo;
+        
+        uint public code_number;
+        uint public date_of_manufacturing;
+        string public brand_name;
+        
+        address public manufacturer;
+        uint public expiry_date;
+        string public image;
+        string public description; 
+
+        uint public currency;
+        uint public price;
+       
+       
+       address public owner;
+       
+       address public custodian;
+       
+       
+       struct rider
+       {
+           address riderx;
+           bool bidSuccessful;
+       }
+       mapping(uint => rider) public delivBids;
+       
+       uint public delveryBids;
+       
+       modifier onlyOwner()
+       {
+           if(msg.sender != owner) revert();
+           _;
+       }
+       
+       modifier onlyCustodian()
+       {
+           if(msg.sender != custodian) revert();
+           _;
+       }
+  
+   /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+     *  These functions perform transactions, editing the mappings *
+     * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+  function Product(Store xx) public
+    {
+       owner = xx; 
+       custodian = xx; 
+    }  
+  function buyProduct() public
+    {
+       sanityCheck();
+    } 
+    
+  function sanityCheck() internal returns(bool)
+    {
+      auctionDelivery(); 
+    } 
+    
+  function auctionDelivery() internal returns(bool)
+    {
+       
+    } 
+    
+  function bidDelivery() public returns(bool)
+    {
+       
+    } 
+  
+  function setCustodianship(address yy) onlyOwner public
+    {
+        custodian = yy;
+    }
+    
+    
+  function surrenderCustodianship(address xyz) onlyCustodian public
+    {
+        owner = xyz;
+    }
+
+}
+
+contract Store
+{
+   uint public company_id;
+   string public business_type;
+   string public name;
+    
+    string public country;
+    string public city;
+    uint public zip_code;
+    
+    uint public postal_address;
+    
+    uint public latitude;
+    uint public longitude;
+    
+    uint public phone;
+    string public email;
+    uint public id_number;
+    
+    string public image;
+    address public owner;
+    
+    uint public registered_products;
+    address public tokenized;
+    
+    mapping(uint => address) public productx;
+    
+    mapping(uint => mapping(address => bool)) public delivAuction;
+    mapping(address => bool) public inStore;
+    
+    
+   modifier onlyOwner()
+       {
+           if(msg.sender != owner) revert();
+           _;
+       }
+       
+       
+   function Store(address xz) public
+   {
+       tokenized = xz;
+       
+   }
+   
+   
+   /*
+       
+     function addProduct (address Product_Address, string Product_name, string Product_description, string Product_manufacturer, uint Product_id, uint expiry_date, string Location) isAdmin public {
+       
+       if(ProductID[product_Address].isProduct != false) revert();
+       
+       Product[Product_Address].isProduct = true;
+       Product[Product_Address].ProductName = Product_name;
+       Product[Product_Address].ProductDescription = Product_description;
+       Product[Product_Address].productManufacturer = Product_manufacturer;
+       Product[Product_Address].ProductID = Product_id ;
+       Product[Product_Address].expirydate = expiry_date;
+       Product[Product_Address].Location = Location;
+       numProduct++;
+    } 
+    */
+    
+    
+   function add_product() public onlyOwner
+   {
+   //   address xxx = new Product();
+     
+     if(productx[registered_products] != address(0x0))
+     {
+       registered_products++;  
+     } 
+   }
+   
+   function transfer_ownership(address newOwner) public onlyOwner
+   {
+       owner = newOwner;
+   }
+   
+}
+
+contract storeFactory
+{
+    address public tokenize;
+    
+    uint public registeredStores;
+    
+    mapping(uint => address) public storex;
+    
+    function storeFactory(address tx)
+    {
+        tokenize = NuruToken(tx);
+    }
+    
+    
+    
+    function registerStore()
+    {
+
+     address xx = new Store(tokenize);
+     
+     if(storex[registeredStores] != xx)
+     {
+       registeredStores++;  
+     }
+     
+     else
+     {
+         revert();
+     }
+     
+    }
+    
+    
+    function () public {
+        
+        if (msg.value != 0) revert();
+        
+    }
+    
+    
+    
+}
